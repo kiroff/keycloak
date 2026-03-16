@@ -1,0 +1,103 @@
+{
+  "realm": "kiroff",
+  "enabled": true,
+  "displayName": "kiroff",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "sslRequired": "external",
+  "roles": {
+    "realm": [
+      { "name": "USER", "description": "Default user role" },
+      { "name": "ADMIN", "description": "Administrator role" }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "kiroff-service-id",
+      "name": "Batcata's Service",
+      "enabled": true,
+      "protocol": "openid-connect",
+
+      "publicClient": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "kiroff-secret",
+
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": true,
+
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "pkce.enabled": "true"
+      },
+
+      "rootUrl": "${authBaseUrl}",
+      "baseUrl": "/realms/kiroff/account/",
+      "redirectUris": [
+        "/realms/kiroff/account/*"
+      ],
+      "webOrigins": [
+        "+"
+      ]
+    },
+    {
+      "clientId": "kiroff-social-login",
+      "name": "Batcata's Social Login Service",
+      "enabled": true,
+      "protocol": "openid-connect",
+
+      "publicClient": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "kiroff-secret",
+
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": true,
+
+      "rootUrl": "http://localhost:8080",
+      "baseUrl": "/home",
+      "redirectUris": [
+        "/*"
+      ],
+      "webOrigins": [
+        "+"
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "user",
+      "email": "user@kiroff.org",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Test",
+      "lastName": "User",
+      "credentials": [
+        { "type": "password", "value": "user", "temporary": false }
+      ],
+      "realmRoles": ["USER"]
+    },
+    {
+      "username": "kiroffbg",
+      "email": "boyan@kiroff.org",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Boyan",
+      "lastName": "Kiroff",
+      "credentials": [
+        { "type": "password", "value": "pa55w0rd", "temporary": false }
+      ],
+      "realmRoles": ["ADMIN"]
+    }
+  ],
+  "components": {
+    "org.keycloak.storage.UserStorageProvider": [
+      {
+        "name": "my-remote-mysql-storage-provider",
+        "providerId": "my-remote-mysql-storage-provider"
+      }
+    ]
+  }
+}

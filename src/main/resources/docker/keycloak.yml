@@ -1,0 +1,23 @@
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: keycloak
+    command: start-dev --import-realm
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_HTTP_RELATIVE_PATH: /auth
+      KC_HEALTH_ENABLED: true
+      KC_METRICS_ENABLED: true
+      JAVA_OPTS_APPEND: "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+    ports:
+      - "8081:8080"
+      - "5005:5005"
+    volumes:
+        - ../../../../target/my-remote-mysql-storage-provider.jar:/opt/keycloak/providers/my-remote-mysql-storage-provider.jar
+        - ./keycloak/import:/opt/keycloak/data/import
+    networks:
+      - keycloak
+
+networks:
+  keycloak:
